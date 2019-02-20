@@ -11,7 +11,7 @@ class Book(models.Model):
     isbn = models.CharField(max_length=1000)
 
     status = models.IntegerField(choices=STATUS_CHOICES, default=AVAILABLE)
-    host = models.ForeignKey("BotUser", on_delete=models.CASCADE, null=True, blank = True)
+    host = models.ForeignKey("BotUser", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         if self.status == self.AVAILABLE:
@@ -42,4 +42,3 @@ class BotUser(models.Model):
 
     def __str__(self):
         return f"@{self.name} ({self.phone}, {self.mail})"
-
