@@ -6,25 +6,20 @@ class BookAdmin(admin.ModelAdmin):
     pass
 
 
-admin.site.register(Book, BookAdmin)
-
-
 class BookAuthorAdmin(admin.ModelAdmin):
     pass
-
-
-admin.site.register(BookAuthor, BookAuthorAdmin)
 
 
 class BookLanguageAdmin(admin.ModelAdmin):
     pass
 
 
-admin.site.register(BookLanguage, BookLanguageAdmin)
-
-
 class BotUserAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("telegram", "phone", "email")
+    fields = ("telegram", "phone", "email")
 
 
+admin.site.register(Book, BookAdmin)
+admin.site.register(BookAuthor, BookAuthorAdmin)
+admin.site.register(BookLanguage, BookLanguageAdmin)
 admin.site.register(BotUser, BotUserAdmin)

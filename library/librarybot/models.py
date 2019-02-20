@@ -39,6 +39,7 @@ class BotUser(models.Model):
     telegram = models.CharField(max_length=1000)
     phone = models.CharField(max_length=100)
     mail = models.CharField(max_length=100)
+    token = models.CharField(max_length=200)
 
     def __str__(self):
         return f"@{self.name} ({self.phone}, {self.mail})"
