@@ -14,6 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import url, include
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 
-urlpatterns = [path("admin/", admin.site.urls)]
+# fmt: off
+urlpatterns = [
+    path("admin/", admin.site.urls), 
+    url(r'^', include('django_telegrambot.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# fmt: on

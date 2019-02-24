@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import logging
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,13 +30,15 @@ SECRET_KEY = "e*m9lg@#xm+wj+l48sdym5)cyr)33hur18i+*ctwfwhhaycg0$"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+NGROK_TUNNEL = "0d800167.ngrok.io"
 
+ALLOWED_HOSTS = [NGROK_TUNNEL, "", "127.0.0.1"]
 
 # Application definition
 
 INSTALLED_APPS = [
     "librarybot",
+    "django_telegrambot",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -113,3 +120,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = "/static/"
+
+DJANGO_TELEGRAMBOT = {
+    "MODE": "WEBHOOK",  # (Optional [str]) # The default value is WEBHOOK,
+    # otherwise you may use 'POLLING'
+    # NB: if use polling you must provide to run
+    # a management command that starts a worker
+    "WEBHOOK_SITE": NGROK_TUNNEL,
+    "WEBHOOK_PREFIX": "/bot",  # (Optional[str]) # If this value is specified,
+    # a prefix is added to webhook url
+    "BOTS": [{"TOKEN": "374007371:AAEGMUErJFYkDbrN72w7EKaSXb4_KMjkYrY"}],  # @GrunnerBot
+}
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT_RELATIVE = "uploads"
+MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_RELATIVE)
