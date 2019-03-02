@@ -31,7 +31,7 @@ def reguser_end(bot, update, agent, chat, botuser):
 
 state_map = {
     "__meta__": {
-        "caption": "Register a user",
+        "caption": msg("mainmenu_reguser_caption"),
         "entry_state": Chat.REGUSER_ASK_EMAIL,
         "entry_point": reguser_ask_email,
     },

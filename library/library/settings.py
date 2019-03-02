@@ -30,7 +30,8 @@ SECRET_KEY = "e*m9lg@#xm+wj+l48sdym5)cyr)33hur18i+*ctwfwhhaycg0$"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-NGROK_TUNNEL = "0d800167.ngrok.io"
+NGROK_TUNNEL = "d2950298.ngrok.io"
+HOSTNAME = "127.0.0.1:8000"
 
 ALLOWED_HOSTS = [NGROK_TUNNEL, "", "127.0.0.1"]
 
@@ -132,6 +133,5 @@ DJANGO_TELEGRAMBOT = {
     "BOTS": [{"TOKEN": "374007371:AAEGMUErJFYkDbrN72w7EKaSXb4_KMjkYrY"}],  # @GrunnerBot
 }
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 MEDIA_URL = "/media/"
-MEDIA_ROOT_RELATIVE = "uploads"
-MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_RELATIVE)

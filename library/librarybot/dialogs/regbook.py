@@ -64,10 +64,27 @@ def regbook_end(bot, update, agent, chat, botuser):
     isbn = update.message.text
     book_meta.update({"book_isbn": isbn})
     reply = msg("regbook_summary").format(**book_meta)
+
+    author = quick_search(book_meta["book_author"], BookAuthor).first()
+    if author is None:
+        author = BookAuthor.objects.create(name=book_meta["book_author"])
+
+    language = quick_search(book_meta["book_language"], BookLanguage).first()
+    if language is None:
+        language = BookLanguage.objects.create(name=book_meta["book_language"])
+
+    if "me" in book_meta["book_hostname"]:
+        host = botuser
+    else:
+        host = quick_search(book_meta["book_hostname"], BotUser, "email").first()
+        if host is None:
+            host = botuser
+
     Book.objects.create(
         name=book_meta["book_name"],
-        author=quick_search(book_meta["book_author"], BookAuthor),
-        language=quick_search(book_meta["book_language"], BookLanguage),
+        author=author,
+        language=language,
+        host=host,
         image=ImageUpload.objects.get(id=book_meta["book_photo_id"]),
         isbn=book_meta["book_isbn"],
     )
@@ -76,7 +93,7 @@ def regbook_end(bot, update, agent, chat, botuser):
 
 state_map = {
     "__meta__": {
-        "caption": "Register a book",
+        "caption": msg("mainmenu_regbook_caption"),
         "entry_state": Chat.REGBOOK_ASK_INFO,
         "entry_point": regbook_ask_book_name,
     },

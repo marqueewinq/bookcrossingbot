@@ -6,48 +6,61 @@ from django.conf import settings
 
 
 class ImageUpload(models.Model):
-    image = models.ImageField(upload_to=settings.MEDIA_ROOT_RELATIVE)
+    image = models.ImageField(upload_to="")
 
 
 class Book(models.Model):
 
-    (AVAILABLE, IN_USE) = range(2)
-    STATUS_CHOICES = ((AVAILABLE, "AVAILABLE"), (IN_USE, "IN USE"))
+    (AVAILABLE, IN_USE, TAKEN_OUT) = range(3)
+    STATUS_CHOICES = (
+        (AVAILABLE, "AVAILABLE"),
+        (IN_USE, "IN USE"),
+        (TAKEN_OUT, "TAKEN_OUT_BY_HOST"),
+    )
     name = models.CharField(max_length=1000)
     author = models.ForeignKey(
-        "BookAuthor", on_delete=models.CASCADE, null=True, blank=True
+        "BookAuthor", on_delete=models.SET_NULL, null=True, blank=True
     )
     language = models.ForeignKey(
-        "BookLanguage", on_delete=models.CASCADE, null=True, blank=True
+        "BookLanguage", on_delete=models.SET_NULL, null=True, blank=True
     )
     isbn = models.CharField(max_length=1000)
     image = models.ForeignKey(
-        ImageUpload, on_delete=models.CASCADE, null=True, blank=True
+        ImageUpload, on_delete=models.SET_NULL, null=True, blank=True
     )
 
     status = models.IntegerField(choices=STATUS_CHOICES, default=AVAILABLE)
-    host = models.ForeignKey("BotUser", on_delete=models.CASCADE, null=True, blank=True)
+    host = models.ForeignKey(
+        "BotUser",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="hosts",
+    )
+    current_user = models.ForeignKey(
+        "BotUser",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="current_users",
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        if self.status == self.AVAILABLE:
-            status = "AVAILABLE"
-        else:
-            status = f"IN USE ({self.host})"
-        return f"{status} | {self.author}, '{self.name}' {self.isbn}"
+        return f"{self.author}, '{self.name}'"
 
     def url(self):
-        return os.path.join(
-            settings.HOSTNAME,
-            settings.MEDIA_URL,
-            os.path.basename(str(self.image.image)),
+        return "http://{}".format(
+            os.path.join(
+                settings.HOSTNAME, "media", os.path.basename(str(self.image.image))
+            )
         )
 
     def image_tag(self):
         # used in the admin site model as a "thumbnail"
-        # return mark_safe('<img src="{}" width="150" height="150" />'.format(self.url()))
-        return "<span> Image: {}</span>".format(self.url())
+        return mark_safe('<img src="{}" width="150" height="150" />'.format(self.url()))
+        # return "<span> Image: {}</span>".format(self.url())
 
     image_tag.short_description = "Image"
 
@@ -95,7 +108,16 @@ class Chat(models.Model):
         REGBOOK_ASK_PHOTO,
         REGBOOK_ASK_ISBN,
         REGBOOK_END,
-    ) = range(12)
+        BORROW_ASK_SEARCH,
+        BORROW_SEARCH_RESULTS,
+        BORROW_SEARCH_RESULT_CONFIRM,
+        BORROW_CONFIRM_BORROW,
+        BORROW_CONFIRM_RETURN,
+        TAKEOUT_ASK_SEARCH,
+        TAKEOUT_SEARCH_RESULTS,
+        TAKEOUT_SEARCH_RESULT_CONFIRM,
+        TAKEOUT_CONFIRM_TAKEOUT,
+    ) = range(21)
 
     # for verbosity
     CHAT_STATES = (
@@ -104,14 +126,18 @@ class Chat(models.Model):
         (MAINMENU, "/main"),
         (REGUSER_ASK_EMAIL, "/registration/email"),
         (REGUSER_END, "/registration/end"),
-        (REGBOOK_ASK_INFO, "/regbook/ASK_NAME"),
-        (REGBOOK_ASK_AUTHOR, "/regbook/ASK_AUTHOR"),
-        (REGBOOK_ASK_LANGUAGE, "/regbook/ASK_LANGUAGE"),
-        (REGBOOK_ASK_HOSTNAME, "/regbook/ASK_HOSTNAME"),
-        (REGBOOK_ASK_PHOTO, "/regbook/ASK_PHOTO"),
-        (REGBOOK_ASK_ISBN, "/regbook/ASK_ISBN"),
+        (REGBOOK_ASK_INFO, "/regbook/ask_name"),
+        (REGBOOK_ASK_AUTHOR, "/regbook/ask_author"),
+        (REGBOOK_ASK_LANGUAGE, "/regbook/ask_language"),
+        (REGBOOK_ASK_HOSTNAME, "/regbook/ask_hostname"),
+        (REGBOOK_ASK_PHOTO, "/regbook/ask_photo"),
+        (REGBOOK_ASK_ISBN, "/regbook/ask_isbn"),
         (REGBOOK_END, "/regbook/end"),
-
+        (BORROW_ASK_SEARCH, "/borrow/ask_search"),
+        (BORROW_SEARCH_RESULTS, "/borrow/search_results"),
+        (BORROW_SEARCH_RESULT_CONFIRM, "/borrow/search_result_confirm"),
+        (BORROW_CONFIRM_BORROW, "/borrow/confirm_borrow"),
+        (BORROW_CONFIRM_RETURN, "/borrow/confirm_return"),
     )
     # fmt: on
 

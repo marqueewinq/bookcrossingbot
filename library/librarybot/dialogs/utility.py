@@ -1,4 +1,5 @@
 import logging
+from random import randint
 import json
 
 logger = logging.getLogger(__package__)
@@ -44,7 +45,11 @@ def tg_handler(state):
             if new_state is None:
                 return ConversationHandler.END
 
-            update.message.reply_text(msg)
+            if type(msg) == str:
+                update.message.reply_text(msg)
+            else:
+                args, kwargs = msg
+                update.message.reply_text(*args, **kwargs)
 
             return new_state
 
@@ -54,5 +59,14 @@ def tg_handler(state):
 
 
 def quick_search(target, model, field="name"):
+    # FIXME: migrate to PostgreSQL and make td-idf search instead
     qry = {field + "__icontains": target}
-    return model.objects.filter(**qry).first()
+    results = _ask_db(model, qry)
+    if results.first() is not None:
+        return results
+    possiblebookname = sorted(target.split(",")[-1].split("'"))[-1]
+    return _ask_db(model, {field + "__icontains": possiblebookname})
+
+
+def _ask_db(model, qry):
+    return model.objects.filter(**qry)
