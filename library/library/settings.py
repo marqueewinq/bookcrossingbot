@@ -30,7 +30,7 @@ SECRET_KEY = "e*m9lg@#xm+wj+l48sdym5)cyr)33hur18i+*ctwfwhhaycg0$"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-NGROK_TUNNEL = "d2950298.ngrok.io"
+NGROK_TUNNEL = "cc8a610f.ngrok.io"
 HOSTNAME = "127.0.0.1:8000"
 
 ALLOWED_HOSTS = [NGROK_TUNNEL, "", "127.0.0.1"]

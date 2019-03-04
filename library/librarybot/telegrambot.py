@@ -8,7 +8,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, ConversationHa
 from django.conf import settings
 from django_telegrambot.apps import DjangoTelegramBot
 
-from librarybot.models import Chat
+from librarybot.models import Chat, BotUser
 
 from librarybot.dialogs.routes import config as route_config
 from librarybot.dialogs.messages import msg
@@ -33,6 +33,10 @@ def start(bot, update):
     chat = Chat.objects.create(agent=agent)
     chat.state = Chat.MAINMENU
     chat.save()
+
+    botuser = BotUser.objects.filter(telegram=agent).first()
+    if botuser is None:
+        botuser = BotUser.objects.create(telegram=agent)
 
     update.message.reply_text(
         msg("mainmenu"),

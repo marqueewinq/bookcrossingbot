@@ -1,7 +1,7 @@
 msg_static = {
     "mainmenu": "Hi you are in main menu, select option below",
     "mainmenu_borrow_book_caption": "Search for a book",
-    "mainmenu_reguser_caption": "Register as a user",
+    "mainmenu_reguser_caption": "Provide/Change e-mail",
     "mainmenu_regbook_caption": "Register a book",
     "mainmenu_takeout_book_caption": "Take my book out",
     "unrecognized_option_crossroad": "Unrecognized option, try /start again",
@@ -29,7 +29,7 @@ msg_static = {
     "borrow_confirm_book_available_Yes": "Yes",
     "borrow_confirm_book_available_No": "No",
     "borrow_confirm_book_inuse": "Book {book} is in use, [current user](tg://user?id={current_user_tg_id}).",
-    "borrow_confirm_borrow_success": "Book borrowed OK, you are current user.",
+    "borrow_confirm_borrow_success": "Book borrowed OK, you are current user. Host: {host_url}",
     "borrow_confirm_borrow_userexit": "OK, no problem, no books borrowed",
     "borrow_confirm_book_return": "Are you sure you want to return the book {book}?",
     "borrow_confirm_book_return_Yes": "Yes",
@@ -45,6 +45,7 @@ msg_static = {
     "takeout_confirm_takeout_success": "OK, book taken out",
     "takeout_confirm_takeout_userexit": "No problem",
     "error_general": "Oops! Something wrong happened, try /start again",
+    "mention_user": "[link](tg://user?id={telegram})",
 }
 
 

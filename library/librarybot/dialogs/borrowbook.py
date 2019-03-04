@@ -103,13 +103,17 @@ def borrow_confirm_borrow(bot, update, agent, chat, botuser):
         book.status = Book.IN_USE
         book.current_user = botuser
         book.save()
-        return msg("borrow_confirm_borrow_success"), ConversationHandler.END
+        host_url = msg("mention_user").format(telegram=book.host.telegram)
+        reply = msg("borrow_confirm_borrow_success").format(host_url=host_url)
+        return reply, ConversationHandler.END
     return msg("borrow_confirm_borrow_userexit"), ConversationHandler.END
 
 
 @tg_handler(state=Chat.BORROW_CONFIRM_RETURN)
 def borrow_confirm_return(bot, update, agent, chat, botuser):
     text = update.message.text
+    book_id = chat.get_meta()["selected_book_id"]
+    book = Book.objects.filter(id=book_id).first()
     if text == msg("borrow_confirm_book_return_Yes"):
         book.status = Book.AVAILABLE
         book.current_user = None

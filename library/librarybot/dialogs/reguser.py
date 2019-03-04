@@ -21,7 +21,11 @@ def reguser_ask_email(bot, update, agent, chat, botuser):
 @tg_handler(state=Chat.REGUSER_END)
 def reguser_end(bot, update, agent, chat, botuser):
     text = update.message.text
-    botuser = BotUser.objects.create(telegram=agent, email=text)
+    if botuser is None:
+        botuser = BotUser.objects.create(telegram=agent, email=text)
+    else:
+        botuser.email = text
+        botuser.save()
 
     reply = msg("reguser_end_success").format(
         agent=agent, email=text, user_id=botuser.pk

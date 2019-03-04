@@ -3,7 +3,7 @@ from random import randint
 import json
 
 logger = logging.getLogger(__package__)
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
 from telegram.ext import ConversationHandler
 from functools import wraps
 
@@ -15,6 +15,8 @@ def get_update_context(update, state):
     agent = update.message.from_user.id
     chat = Chat.objects.filter(agent=agent, state=state).first()
     botuser = BotUser.objects.filter(telegram=agent).first()
+    if botuser is None:
+        botuser = BotUser.objects.create(telegram=agent)
     return agent, chat, botuser
 
 
@@ -46,7 +48,7 @@ def tg_handler(state):
                 return ConversationHandler.END
 
             if type(msg) == str:
-                update.message.reply_text(msg)
+                update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
             else:
                 args, kwargs = msg
                 update.message.reply_text(*args, **kwargs)

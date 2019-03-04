@@ -6,7 +6,8 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import CommandHandler, MessageHandler, Filters, ConversationHandler
 
 from librarybot.models import Chat
-from librarybot.dialogs.reguser import state_map as reguser_state_map
+
+# from librarybot.dialogs.reguser import state_map as reguser_state_map
 from librarybot.dialogs.regbook import state_map as regbook_state_map
 from librarybot.dialogs.borrowbook import state_map as borrowbook_state_map
 from librarybot.dialogs.takeoutmybook import state_map as takeoutmybook_state_map
@@ -31,7 +32,7 @@ def crossroad(bot, update):
 
 class config:
     state_map_list = [
-        reguser_state_map,
+        #        reguser_state_map,
         regbook_state_map,
         borrowbook_state_map,
         takeoutmybook_state_map,
