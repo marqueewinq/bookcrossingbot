@@ -14,8 +14,6 @@ import os
 import logging
 import json
 
-_configdata = json.load(open("library/library/config_deploy.json"))
-
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG
 )
@@ -33,7 +31,6 @@ SECRET_KEY = "e*m9lg@#xm+wj+l48sdym5)cyr)33hur18i+*ctwfwhhaycg0$"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-NGROK_TUNNEL = _configdata.get("ngrok_tunnel")
 HOSTNAME = "127.0.0.1:8000"
 
 ALLOWED_HOSTS = ["*"]  # not safe for production
@@ -133,7 +130,9 @@ DJANGO_TELEGRAMBOT = {
     "WEBHOOK_SITE": "librarybot.marqueewinq.life",
     "WEBHOOK_PREFIX": "/bot",  # (Optional[str]) # If this value is specified,
     # a prefix is added to webhook url
-    "BOTS": [{"TOKEN": _configdata.get("bot_token")}],  # @BookCrossingLibraryBot
+    "BOTS": [
+        {"TOKEN": "702778138:AAF-Up_YYYDzAROrwMt5X5fH295LU8_UA0A"}
+    ],  # @BookCrossingLibraryBot
 }
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
