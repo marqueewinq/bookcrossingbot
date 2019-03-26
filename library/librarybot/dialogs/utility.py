@@ -48,7 +48,8 @@ def tg_handler(state):
                 return ConversationHandler.END
 
             if type(msg) == str:
-                update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+                logger.debug(msg)
+                update.message.reply_text(msg, parse_mode=ParseMode.HTML)
             else:
                 args, kwargs = msg
                 update.message.reply_text(*args, **kwargs)

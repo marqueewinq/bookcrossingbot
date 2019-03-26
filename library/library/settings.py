@@ -127,12 +127,13 @@ DJANGO_TELEGRAMBOT = {
     # otherwise you may use 'POLLING'
     # NB: if use polling you must provide to run
     # a management command that starts a worker
-    "WEBHOOK_SITE": "librarybot.marqueewinq.life",
+    "WEBHOOK_SITE": "be393eeb.ngrok.io",
     "WEBHOOK_PREFIX": "/bot",  # (Optional[str]) # If this value is specified,
     # a prefix is added to webhook url
-    "BOTS": [
-        {"TOKEN": "702778138:AAF-Up_YYYDzAROrwMt5X5fH295LU8_UA0A"}
-    ],  # @BookCrossingLibraryBot
+    # "BOTS": [
+    #    {"TOKEN": "702778138:AAF-Up_YYYDzAROrwMt5X5fH295LU8_UA0A"}
+    # ],  # @BookCrossingLibraryBot
+    "BOTS": [{"TOKEN": "374007371:AAEGMUErJFYkDbrN72w7EKaSXb4_KMjkYrY"}],  # @GrunnerBot
 }
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")

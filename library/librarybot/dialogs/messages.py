@@ -45,7 +45,7 @@ msg_static = {
     "takeout_confirm_takeout_success": "OK, book taken out",
     "takeout_confirm_takeout_userexit": "No problem",
     "error_general": "Oops! Something wrong happened, try /start again",
-    "mention_user": "[link](tg://user?id={telegram})",
+    "mention_user": "<a href='tg://user?id={telegram}'>link</a>",
 }
 
 
