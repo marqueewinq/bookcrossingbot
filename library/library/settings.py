@@ -130,7 +130,7 @@ DJANGO_TELEGRAMBOT = {
     # otherwise you may use 'POLLING'
     # NB: if use polling you must provide to run
     # a management command that starts a worker
-    "WEBHOOK_SITE": NGROK_TUNNEL,
+    "WEBHOOK_SITE": "librarybot.marqueewinq.life",
     "WEBHOOK_PREFIX": "/bot",  # (Optional[str]) # If this value is specified,
     # a prefix is added to webhook url
     "BOTS": [{"TOKEN": _configdata.get("bot_token")}],  # @BookCrossingLibraryBot
