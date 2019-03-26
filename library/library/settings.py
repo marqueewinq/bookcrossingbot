@@ -36,7 +36,7 @@ DEBUG = True
 NGROK_TUNNEL = _configdata.get("ngrok_tunnel")
 HOSTNAME = "127.0.0.1:8000"
 
-ALLOWED_HOSTS = [NGROK_TUNNEL, "", HOSTNAME]
+ALLOWED_HOSTS = ["*"]  # not safe for production
 
 # Application definition
 
